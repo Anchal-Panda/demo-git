@@ -1,0 +1,101 @@
+DevOps
+	developer <--> operational i.e. how to deploy code (docker and kubernates and cloud )
+	many applications have become technology specific	
+	java <-> java | .Net <-> .Net | Python <-> Python
+	       RMI	         COM/DCOM		
+
+2 java applications working on separate/remote servers, what technology will they use to communicate?
+	Java RMI(Remote Method Invocation) via Web Sockets
+how do applications with different technology interact/communicate?
+	CORBA complex technology that made communications of applications technology independent
+	Later W3C(www consortia) designed a software to support interoperable, m2m(machine to machine) interaction over a network
+what is a web service?
+	interoperable	-> independent of the technology on the server and the client
+	m2m              	-> web service should be initiated by a machine [webpage/website/web-applications are human to machine]
+	
+what technology do web services use?
+	XML : Extensible Markup Language : very heavy metadata and data
+	JSON : Java Script Object Notation : light metadata
+
+what are the types of web services?
+	1. SOAP - Simple Object Access Protocol | uses XML | heavy
+	2. REST - Representational State Transfer | uses JSON | uses existing HTML technology(get/post/put/delete) hence standardized 
+
+Microservices
+how do we move from web-services to micre-services?
+	1. monolithic applications :
+		create new war files for each release 
+		deployment cannot be done module-wise because of interdependency
+		complex application to test
+		inefficient computing
+
+		Client App	  Monolithic Server Process		   Database
+		 mobile	----------->[     API	  ] -> {  Modules  } 	------------> relational
+		website	----------->[ WEB APP ] -> |_________|	------------> database
+
+	2. microservice applications :
+		modelled around business domain : create multiple independent services based on functionality
+		independent deployability : no dependency at the code level, dependency at the functionality level
+		owning their own state
+		size
+		Agile Methodology - small/microservice per team that decreases the software lifecycles
+		dvpt - agile / functionality - microservice / deployment - docker
+		technology : springboot(java), .Net(C#), flask(python), PHP, Node.js 
+
+		Client App	docker	    API
+				  host	Gateway
+		  mobile	---------------------->|----------->{cloud-----[identity microservice]--------db}
+		 website	---------------------->|----------->{cloud-----[catalog microservice]---------db}
+				             |-----------> {cloud-----[order microservice]----------db}
+				             |-----------> {cloud-----[sales microservice]-----------db}
+
+what is deployment?
+	making code work
+what is virtuaization?
+	it allows you to utilize a physical machine's full capacity by distribution of its capabilities among many users / environments(OS)
+what is a virtual machine?
+	although your machine uses one environment to operate (host),
+	a virtualization software aka Hypervisor i.e. middle-ware like VMWare, VirtualBox etc is used to create multiple virtual machines of different, isolated environment to increase the capacity of host
+		isolated= keeps the environment to its own part of the host / crashing would not affect the others
+		interoperable = can interact with the other environments present on the same host
+Docker
+	special case of virtual machine
+	supports containerization i.e creation, management of containers
+what is a container?
+	a standardized unit of software
+	i.e a package of the software and its dependencies that run the code (eg. NodeJS code and NodeJS runtime)
+	makes the code self-sufficient, i.e. independent of the technologies
+	without docker :
+		java dependency 	->   Test	     Production
+		db dependency   	-> Server	->    (ver 1.8)
+		code 		->(ver1.9)          FAILS
+	with docker :
+		initalize the specifications are packaged with its dependencies and sent at the time of development
+		production systems supporting different technologies run seamlessly
+		.java files, JRE ver	->   Docker <- Production
+		Oracle version x.y	->   Images       System
+		Libraries		-> (test srv)
+how does docker work?
+	docker is a virtual machine manager
+	installs virtualization software i.e. component of linux (based on dvpr instructions)
+	hence docker contains the kernel and the linux environment is used by the packages to be deployed
+	hence the functionality is platform independent, and technology independent
+why is docker called a container
+	the code packages are isolated, interoperable and can be implemented on amy environment
+	----------------- container -----------------
+	app a | app b | app c | app d | app e |
+how to work on Docker
+	create a Dockerfile :
+		D:\dockertest\hello-world-java\Dockerfile
+		  FROM openjdk:11-jre-slim (from dockerhub)
+		  ADD HelloWorld.java
+		  CMD ["java", "HelloWorld.java"](universal command)
+	run a Dockerfile
+		docker build -t <filename>
+
+Kubernetes
+	for dynamically create multiple instances of the microservices to cater to client in real time
+	
+	Order Microservice (REST API)	------------> Docker Image -----> \ _ kubernetes
+	Payment Microservice (REST API)---------> Docker Image -----> /
+	
